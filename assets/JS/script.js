@@ -5,5 +5,5 @@
     //if the right answer is picked the score goes up
     //if the wrong answer is piacke the timer goes down
 //timer
-//save scores
-//let user put ther inintials with the score after their round
+//save scores with initials
+    
