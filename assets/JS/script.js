@@ -1,43 +1,134 @@
-var question = document.querySelector("#question");
-var answer1 = document.querySelector("#first");
-var answer2 = document.querySelector("#second");
-var answer3 = document.querySelector("#third");
-var answer4 = document.querySelector("#fourth");
-var start = document.querySelector('#start');
-var countDown = document.querySelector('#countDown');
-var timeLeft = 60;
-var score = 0;
+const question = document.querySelector("#question");
+const answer1 = document.querySelector("#first");
+const answer2 = document.querySelector("#second");
+const answer3 = document.querySelector("#third");
+const answer4 = document.querySelector("#fourth");
+const start = document.querySelector('#start');
+const countDown = document.querySelector('#countDown');
+const display = document.querySelectorAll('.display');
+let i = 0;
+let time = 60;
+let score = 0;
+
 const questions = [
     'What is the lowest rank in Overwatch 2?',
     'Who was the first new hero added to Overwatch?',
     'How many hero catergories are there in Overwatch 2?',
     'What year was Overwatch 2 released?',
-    'What was the name of the meta the dominated the Overwatch League after the release of Brigitte?'
+    'What was the name of the meta the dominated the Overwatch League after the release of Brigitte?',
+    'Who was the first now tank added to Overwatch?',
 ];
 const answers = [
     ['Bronze', 'Silver', 'Carbon', 'Wood'],
     ['Sombra', 'Doomfist', 'Anna', 'Orisa'],
     ['1', '2', '3', '4'],
     ['2020', '2021', '2022', '2023'],
-    ['Rein', 'Goats', 'Dive', 'Double Shield']
+    ['Rein', 'Goats', 'Dive', 'Double Shield'],
+    ['Mauga', 'Doomfist', 'Orisa', 'Ramattra'],
 ];
 const answerKey = [
     [true, false, false, false],
     [false, false, true, false],
     [false, false, true, false],
     [false, false, false, true],
-    [false, true, false, false]
+    [false, true, false, false],
+    [false, false, true, false],
 ];
-console.log(questions[0]);
-console.log(answers[0][0]);
 
 //start button
-start.addEventListener('click', function() {
+start.addEventListener('click', function () {
     start.setAttribute('style', 'display: none;');
-    let i = 0;
-    let j = 0;
-    //quiz display
-    //display options for the user to pick
+    
+    answer1.addEventListener('click', function (event) {
+        event.stopPropagation();
+        if (answerKey[i][0] === true) {
+            correct();
+        } else {
+            incorrect();
+        };
+    });
+    answer2.addEventListener('click', function (event) {
+        event.stopPropagation();
+        if (answerKey[i][1] === true) {
+            correct();
+        } else {
+            incorrect();
+        };
+    });
+    answer3.addEventListener('click', function (event) {
+        event.stopPropagation();
+        if (answerKey[i][2] === true) {
+            correct();
+        } else {
+            incorrect();
+        };
+    });
+    answer4.addEventListener('click', function (event) {
+        event.stopPropagation();
+        if (answerKey[i][3] === true) {
+            correct();
+        } else {
+            incorrect()
+        };
+    });
+
+    udpdatedDisplay();
+
+    timer();
+});
+
+//timer
+function timer() {
+    let counter = 0
+    var timerInterval = setInterval(function () {
+        let timeLeft = time - counter
+        countDown.textContent = 'Time left = ' + timeLeft;
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            endGame();
+            return;
+        };
+        counter++;
+    }, 1000);
+};
+
+function endGame() {
+    display.forEach(element => {
+        element.setAttribute('style', 'display: none;');
+    });
+
+};
+
+//if the wrong answer is picked the timer goes down
+function incorrect() {
+    time = time - 5;
+    i++;
+    if (i >= questions.length) {
+        endGame();
+        return;
+    } else {
+        udpdatedDisplay();
+        return;
+    };
+};
+
+//if the right answer is picked the score goes up
+function correct() {
+    score++;
+    i++;
+    console.log(score);
+    if (i >= questions.length) {
+        endGame();
+        return;
+    } else {
+        udpdatedDisplay();
+        return;
+    };
+};
+
+//quiz display
+//display options for the user to pick
+function udpdatedDisplay() {
     question.textContent = questions[i];
     answer1.textContent = answers[i][0];
     question.textContent = questions[i];
@@ -46,122 +137,15 @@ start.addEventListener('click', function() {
     answer3.textContent = answers[i][2];
     question.textContent = questions[i];
     answer4.textContent = answers[i][3];
+};
 
-    visualViewport.addEventListener('click', function (event) {
-        if (event.target.matches('button.answer1')) {
-            handleButtonClick(event)
-            if (answerKey[i][0] === true) {
-                //if the right answer is picked the score goes up
-                score++, console.log(score);
-                i++
-
-            } else {
-                //if the wrong answer is picked the timer goes down
-                timeLeft--
-                i++
-            }
-        } else if (event.target.matches('button.answer2')) {
-            if (answerKey[i][1] === true) {
-                score++, console.log(score);
-                i++
-            } else {
-                timeLeft--
-                i++
-            }
-        } else if (event.target.matches('button.answer3')) {
-            if (answerKey[i][2] === true) {
-                score++, console.log(score);
-                i++
-            } else {
-                timeLeft--
-                i++
-            }
-        } else if (event.target.matches('button.answer4')) {
-            if (answerKey[i][3] === true) {
-                score++, console.log(score);
-                i++
-            } else {
-                timeLeft--
-                i++
-            }
-        }
-    },);
-
-
-
-
-
-    // answer1.addEventListener('click', function () {
-    //     event.stopPropagation();
-    //     if (answerKey[i][0] === true) {
-    //         //if the right answer is picked the score goes up
-    //         score++, console.log(score);
-    //         i++
-    //     } else {
-    //         //if the wrong answer is picked the timer goes down
-    //         timeLeft--
-    //         i++
-    //     }
-    // })
-    // answer2.textContent = answers[i][1];
-    // answer1.addEventListener('click', function () {
-    //     event.stopPropagation();
-    //     if (answerKey[i][1] === true) {
-    //         score++, console.log(score);
-    //         i++
-    //     } else {
-    //         timeLeft--
-    //         i++
-    //     }
-    // })
-    // answer3.textContent = answers[i][2];
-    // answer1.addEventListener('click', function () {
-    //     event.stopPropagation();
-    //     if (answerKey[i][2] === true) {
-    //         score++, console.log(score);
-    //         i++
-    //     } else {
-    //         timeLeft--
-    //         i++
-    //     }
-    // })
-    // answer4.textContent = answers[i][3];
-    // answer1.addEventListener('click', function () {
-    //     event.stopPropagation();
-    //     if (answerKey[i][3] === true) {
-    //         score++, console.log(score);
-    //         i++
-    //     } else {
-    //         timeLeft--
-    //         i++
-    //     }
-    // })
-    //change after the  quiz is started and after each question is answered 
-
-    timer()
-    //timer
-    function timer() {
-        var timerInterval = setInterval(function () {
-
-            console.log(timeLeft)
-            countDown.textContent = 'Time left = ' + timeLeft;
-
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                return
-            }
-            timeLeft--;
-        }, 1000);
-    }
-
-}
-)
+function reset() {
+    let i = 0;
+    let time = 60;
+    let score = 0;
+    display.forEach(element => {
+        element.setAttribute('style', 'display: shown;');
+    });
+};
 
 //save scores with initials
-//make an array for the questions that can be looped through to display each question and its answers
-
-// visualViewport.addEventListener('click', function(event){
-//  if( event.target.matches('button') ){
-//     handleButtonClick(event)
-//  }
-// })

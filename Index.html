@@ -13,23 +13,30 @@
   <header>
     <a href="#">Highscores</a>
     <!-- timer for the quiz -->
-    <h2 id="countDown">Time left = </h2>
+    <h2 id="countDown"class='display'>Time left = </h2>
     <!-- button to start the quiz -->
     <button id="start">Start Test</button>
   </header>
   <main>
     <!-- TO DO -->
     <!-- box for the quiz to be loacted -->
-    <section>
+    <section id="game">
       <!-- display each question one at a time -->
-      <p id="question"></p>
+      <p id="question"class="display"></p>
       <!-- user input for quiz questions -->
-      <button id="first"></button>
-      <button id="second"></button>
-      <button id="third"></button>
-      <button id="fourth"></button>
+      <button id="first"class="display"></button>
+      <button id="second"class="display"></button>
+      <button id="third"class="display"></button>
+      <button id="fourth"class="display"></button>
     </section>
     <!-- Display score and ask for initials after quiz compleation -->
+    <section id="scores">
+      <ul id="leaderboard">
+        
+      </ul>
+      <p id="points"></p>
+      <form id="initials"></form>
+    </section>
     <!-- save scores with initials -->
   </main>
   <script src="./assets/JS/script.js"></script>
