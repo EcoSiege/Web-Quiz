@@ -1,3 +1,4 @@
+const finalScore = document.querySelector('#points');
 const question = document.querySelector("#question");
 const answer1 = document.querySelector("#first");
 const answer2 = document.querySelector("#second");
@@ -6,9 +7,17 @@ const answer4 = document.querySelector("#fourth");
 const start = document.querySelector('#start');
 const countDown = document.querySelector('#countDown');
 const display = document.querySelectorAll('.display');
+const scores = document.querySelector('#scores');
+const sign = document.querySelector('#initials');
+const submit = document.querySelector('#submit');
+const leaderboard = document.querySelector('#leaderboard');
+const listItem = <li></li>;
+
+var highscoresArray = {}
 let i = 0;
 let time = 60;
 let score = 0;
+scores.setAttribute('style', "display: none");
 
 const questions = [
     'What is the lowest rank in Overwatch 2?',
@@ -93,10 +102,11 @@ function timer() {
 };
 
 function endGame() {
+    scores.setAttribute('style', 'display: shown;')
     display.forEach(element => {
         element.setAttribute('style', 'display: none;');
     });
-
+    points()
 };
 
 //if the wrong answer is picked the timer goes down
@@ -104,7 +114,7 @@ function incorrect() {
     time = time - 5;
     i++;
     if (i >= questions.length) {
-        endGame();
+       time = 0;
         return;
     } else {
         udpdatedDisplay();
@@ -118,7 +128,7 @@ function correct() {
     i++;
     console.log(score);
     if (i >= questions.length) {
-        endGame();
+        time = 0;
         return;
     } else {
         udpdatedDisplay();
@@ -148,4 +158,21 @@ function reset() {
     });
 };
 
+submit.addEventListener(click, function(event) {
+    event.stopPropagation()
+
+} ) 
 //save scores with initials
+function save() {
+    
+}
+
+localStorage.setItem("highscoresArray", JSON.stringify(highscoresArray));
+renderMessage();
+
+
+function renderMessage() {
+  var lastGrade = JSON.parse(localStorage.getItem("highscoresArray"));
+  if (lastGrade !== null) for (let i = 0; i < highscoresArray.length; i++) {
+    leaderboard.append(listItem.textContent(highscoresArray[i]));
+  }};
