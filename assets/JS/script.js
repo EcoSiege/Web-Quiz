@@ -7,13 +7,13 @@ const answer4 = document.querySelector("#fourth");
 const start = document.querySelector('#start');
 const countDown = document.querySelector('#countDown');
 const display = document.querySelectorAll('.display');
-const scores = document.querySelector('#scores');
+const scores = document.querySelector('.scores');
 const sign = document.querySelector('#initials');
 const submit = document.querySelector('#submit');
 const leaderboard = document.querySelector('#leaderboard');
-const listItem = <li></li>;
-
-var highscoresArray = {}
+const p = document.querySelector('#p');
+const highscoresArray = [{ Initials: 'TP', Score: '5' },];
+highscoresArray.lenght=20; 
 let i = 0;
 let time = 60;
 let score = 0;
@@ -47,7 +47,7 @@ const answerKey = [
 //start button
 start.addEventListener('click', function () {
     start.setAttribute('style', 'display: none;');
-    
+
     answer1.addEventListener('click', function (event) {
         event.stopPropagation();
         if (answerKey[i][0] === true) {
@@ -106,7 +106,6 @@ function endGame() {
     display.forEach(element => {
         element.setAttribute('style', 'display: none;');
     });
-    points()
 };
 
 //if the wrong answer is picked the timer goes down
@@ -114,7 +113,7 @@ function incorrect() {
     time = time - 5;
     i++;
     if (i >= questions.length) {
-       time = 0;
+        time = 0;
         return;
     } else {
         udpdatedDisplay();
@@ -158,21 +157,34 @@ function reset() {
     });
 };
 
-submit.addEventListener(click, function(event) {
+submit.addEventListener('click', function (event) {
     event.stopPropagation()
-
-} ) 
-//save scores with initials
+    let holder = {
+        initials:sign.value,
+        points:score
+    };
+    submit.setAttribute('style', 'display: none;');
+    p.setAttribute('style', 'display: none;');
+    sign.setAttribute('style', 'display: none;');
+    console.log(holder);
+    highscoresArray.push(holder);
+    console.log(highscoresArray);
+    save();
+})
+//save scores with initials as an array
+//take the saved scores and print them with their own list item to the leader board
 function save() {
-    
+    localStorage.setItem("highscoresArray", JSON.stringify(highscoresArray));
+    renderMessage();
 }
 
-localStorage.setItem("highscoresArray", JSON.stringify(highscoresArray));
-renderMessage();
+
 
 
 function renderMessage() {
-  var lastGrade = JSON.parse(localStorage.getItem("highscoresArray"));
-  if (lastGrade !== null) for (let i = 0; i < highscoresArray.length; i++) {
-    leaderboard.append(listItem.textContent(highscoresArray[i]));
-  }};
+    var player = JSON.parse(localStorage.getItem("highscoresArray"));
+    if (player !== null) for (let j = 0; j < highscoresArray.length; j++) {
+        leaderboard.append.document.createElement(li).textContent(highscoresArray[j]);
+    }
+};
+
